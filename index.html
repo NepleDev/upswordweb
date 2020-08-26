@@ -1,0 +1,58 @@
+<!doctype html>
+
+<html>
+
+<head>
+    <title>UpSword</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script type="text/javascript" src="scripts/jquery-3.5.1.min.js"></script>
+</head>
+
+<body>
+    <div id="parentContainer" class="parentContainer" style="text-align: center;">
+        <span style="margin-top: 30px; font-size: 40px; font-family: NanumSquare; font-weight: 700">UpSword - 검 강화 게임</span><br>
+        <span style="margin-top: 30px; font-size: 15px; font-family: NanumSquare; font-weight: 100">디스코드 봇 UpSword의 웹버전입니다. 검을 강화해 점점 강해지세요!</span>
+        <hr>
+        <div id="coinAmountContainer" style="font-size:15px; font-family: NanumSquare; color: #000000">
+            <p>
+                현재
+                <span id="coinAmount" style="font-size: 25px;">0</span>
+                코인을 보유 중입니다.
+            </p>
+        </div>
+        <div id="upAmountContainer">
+            <p style="font-size: 15px; font-family: NanumSquare; color: #000000;">
+                현재
+                <span id="coinAmount" style="font-size: 25px;">0</span>
+                UP를 보유 중입니다. 
+            </p>
+        </div>
+        
+        
+        <div id="menuContainer" class="menuContainer">
+            <button id="menuUpgradeButton" style="display: inline-block;" class="upgrademenubtn">강화</button>
+            <button id="menuAchievementButton" style="display: inline-block;" class="menubtn">업적</button>
+            <button id="menuStatisticsButton" style="display: inline-block;" class="menubtn">통계</button>
+            <button id="menuOptionButton" style="display: inline-block;" class="menubtn">설정</button>
+        </div>
+
+        <div id="upgradeContainer" class="upgradeContainer">
+            <div id="swordInfo" class="swordinfo" style="font-size:25px; font-family: NanumSquare; color: #000000;">
+                <p style="margin: 5vh 0px 20px 0px">
+                    현재 검 레벨<br>
+                    <span id="swordLevel" style="font-size:40px; font-family: NanumSquare; color: #000000;">0</span>
+                    Lv
+                </p>
+            </div>
+            <button id="upgradeButton" class="upgradebtn">강화하기<br></button>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="scripts/logarithmica_numerus_lite.js"></script>
+    <script type="text/javascript" src="scripts/main.js"></script>
+
+</body>
+
+
+
+</html>

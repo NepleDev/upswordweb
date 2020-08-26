@@ -1,0 +1,66 @@
+@font-face {
+    font-family: NanumSquare;
+    src: url('NanumSquare.ttf');
+}
+
+
+.menubtn {
+    color: #222222;
+    background: #D0D0D0;
+    padding: 5px 15px;
+    border: 2px solid #666666;
+    border-radius: 6px;
+    transition-duration: 0.2s;
+    cursor: pointer;
+    font-family: NanumSquare;
+    font-size: 32px;
+}
+
+.menubtn:hover {
+    color: #FFFFFF;
+    background: #666666;
+    padding: 5px 15px;
+    border: 2px solid #222222;
+    border-radius: 6px;
+    transition-duration: 0.2s;
+    cursor: pointer;
+    font-family: NanumSquare;
+    font-size: 32px;
+}
+
+.upgrademenubtn {
+    color: #8C0000;
+    background: #FFDBDB;
+    padding: 5px 15px;
+    border: 2px solid #FF7878;
+    border-radius: 6px;
+    transition-duration: 0.2s;
+    cursor: pointer;
+    font-family: NanumSquare;
+    font-size: 32px;
+}
+
+.upgrademenubtn:hover {
+    color: #FFFFFF;
+    background: #FF7878;
+    padding: 5px 15px;
+    border: 2px solid #FF7878;
+    border-radius: 6px;
+    transition-duration: 0.2s;
+    cursor: pointer;
+    font-family: NanumSquare;
+    font-size: 32px;
+}
+
+.upgradebtn{
+    color: #8C0000;
+    background: #FFDBDB;
+    width: 200px;
+    height: 100px;
+    border: 2px solid #FF7878;
+    border-radius: 6px;
+    transition-duration: 0.2s;
+    cursor: pointer;
+    font-family: NanumSquare;
+    font-size: 32px;
+}
