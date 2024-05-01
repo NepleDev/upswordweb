@@ -12,9 +12,9 @@
 <body>
     <div id="parentContainer" class="parentContainer" style="text-align: center;">
         <span style="margin-top: 30px; font-size: 40px; font-family: NanumSquare; font-weight: 700"><span class="game-title">UpSword</span> : 방치형 강화 게임</span><br>
-        <span style="margin-top: 30px; font-size: 15px; font-family: NanumSquare; font-weight: 100">디스코드 봇 UpSword의 웹버전입니다. 검을 강화해 점점 강해지세요!</span>
+        <span style="margin-top: 30px; font-size: 18px; font-family: NanumSquare; font-weight: 100">검을 강화해 점점 강해지세요!</span>
         <hr>
-        <div id="coinAmountContainer" style="font-size:15px; font-family: NanumSquare; color: #000000">
+        <div id="coinAmountContainer" style="font-size:18px; font-family: NanumSquare; color: #000000">
             <p>
                 현재
                 <span id="coinAmount" style="font-size: 25px;">0</span>
@@ -38,7 +38,13 @@
                     Lv
                 </p>
             </div>
-            <button id="upgradeButton" class="upgradebtn">강화하기<br></button>
+            <div id="expProgress" style="width: 25rem; margin: 0 0 2rem 0">
+                <div class="progress" style="height: 2rem;">
+                    <div class="progress-bar" role="progressbar"></div>
+                </div>
+            </div>
+
+            <button id="upgradeButton" class="upgradebtn">강화!<br></button>
         </div>
     </div>
 
