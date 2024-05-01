@@ -14,10 +14,10 @@
         <span style="margin-top: 30px; font-size: 40px; font-family: NanumSquare; font-weight: 700"><span class="game-title">UpSword</span> : 방치형 강화 게임</span><br>
         <span style="margin-top: 30px; font-size: 18px; font-family: NanumSquare; font-weight: 100">검을 강화해 점점 강해지세요!</span>
         <hr>
-        <div id="coinAmountContainer" style="font-size:18px; font-family: NanumSquare; color: #000000">
+        <div id="coinAmountContainer" style="font-size:22px; font-family: NanumSquare; color: #000000">
             <p>
                 현재
-                <span id="coinAmount" style="font-size: 25px;">0</span>
+                <span id="coinAmount" style="font-size: 30px; font-weight: 600;">0</span>
                 코인을 보유 중입니다.
             </p>
         </div>
@@ -31,16 +31,17 @@
         </div>
 
         <div id="upgradeContainer" class="upgradeContainer">
-            <div id="swordInfo" class="swordinfo" style="font-size:25px; font-family: NanumSquare; color: #000000;">
-                <p style="margin: 5vh 0px 20px 0px">
-                    현재 검 레벨<br>
-                    <span id="swordLevel" style="font-size:40px; font-family: NanumSquare; color: #000000;">0</span>
-                    Lv
-                </p>
+            <div id="swordInfo" class="swordinfo" style="font-size:18px; font-family: NanumSquare; color: #000000;">
+                <p style="margin: 3rem 0px 0px 0px; padding: 0; font-size: 22px;">현재 검 레벨</p><br>
+                <span id="swordLevel" style="font-size:40px; font-family: NanumSquare; font-weight: 800; color: #000000; line-height: 0rem;">0</span>
+                <p style="margin: 0; padding: 0; line-height: 1rem; font-size: 18px">Level</p><br>
+                <p style="margin: 0; padding: 0; line-height: 1rem; font-size: 18px">EXP</p>
+                <p style="margin: 0; padding: 0; line-height: 2rem; font-size: 24px">0 / 5</p>
             </div>
-            <div id="expProgress" style="width: 25rem; margin: 0 0 2rem 0">
-                <div class="progress" style="height: 2rem;">
-                    <div class="progress-bar" role="progressbar"></div>
+            <div id="expProgress" style="width: 25rem; margin: 0.25rem 0 1rem 0">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-info active" style="width:80%; box-shadow:-1px 10px 10px rgba(91, 192, 222, 0.7);"></div>
+                    <div class="progress-value">60%</div>
                 </div>
             </div>
 

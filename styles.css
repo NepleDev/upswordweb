@@ -51,10 +51,10 @@
     cursor: pointer;
     display: inline-flex;
     font-family: NanumSquare,system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-size: 27px;
+    font-size: 24px;
     font-weight: 300;
     justify-content: center;
-    height: 4rem;
+    height: 3.5rem;
     line-height: 1.25;
     margin: 0;
     position: relative;
@@ -171,4 +171,35 @@ position: relative;
     justify-content: center;
     flex-direction: column;
     align-items: center;
+}
+
+.progress{
+    height: 1.25rem !important;
+    margin: 0;
+    overflow: visible;
+    border-radius: 50px !important;
+    background: #cbcdd8 !important;
+    box-shadow: 0 0 10px 4px rgba(227, 232, 237, 0.8);
+}
+.progress .progress-bar{
+    height: 1.25rem !important;
+    border-radius: 50px;
+}
+.progress .progress-value{
+    position: relative;
+    left: -45px;
+    font-size: 15px;
+    font-weight: bold;
+    font-family: NanumSquare;
+    color: #fff;
+    letter-spacing: 0px;
+}
+.progress-bar.active{
+    animation: reverse progress-bar-stripes 0.40s linear infinite, animate-positive 2s;
+}
+@-webkit-keyframes animate-positive{
+    0% { width: 0%; }
+}
+@keyframes animate-positive {
+    0% { width: 0%; }
 }
