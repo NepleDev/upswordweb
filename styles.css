@@ -3,53 +3,78 @@
     src: url('NanumSquare.ttf');
 }
 
+.game-title {
+    text-shadow: rgb(135, 135, 135) 1px 1px 3px
+}
+
+.btncolor-menu {
+    background-color: rgba(208, 208, 208, 1);
+    color: rgba(34, 34, 34, 0.85);
+    border: 2px solid rgba(69, 69, 69, 0.4);
+}
+
+.btncolor-menu:hover{
+    background: rgb(97, 97, 97);
+    border-color: rgb(97, 97, 97);
+    color: rgba(255, 255, 255, 1);
+}
+
+.btncolor-menu:active{
+    background: rgb(158, 158, 158);
+    border-color: rgb(158, 158, 158);
+    color: rgba(255, 255, 255, 1);
+}
+
+.btncolor-upgrade {
+    background-color: rgba(255, 219, 219, 1);
+    color: rgba(140, 0, 0, 1);
+    border: 2px solid rgba(255, 120, 120, 1);
+}
+
+.btncolor-upgrade:hover{
+    background: rgba(255, 120, 120, 1);
+    border-color: rgba(255, 120, 120, 1);
+    color: rgba(255, 255, 255, 1);
+}
+
+.btncolor-upgrade:active{
+    background: rgb(255, 158, 158);
+    border-color: rgba(255, 120, 120, 1);
+    color: rgba(255, 255, 255, 1);
+}
 
 .menubtn {
-    color: #222222;
-    background: #D0D0D0;
-    padding: 5px 15px;
-    border: 2px solid #666666;
-    border-radius: 6px;
-    transition-duration: 0.2s;
+    align-items: center;
+    border-radius: 0.5rem;
+    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+    box-sizing: border-box;
     cursor: pointer;
-    font-family: NanumSquare;
-    font-size: 32px;
+    display: inline-flex;
+    font-family: NanumSquare,system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 27px;
+    font-weight: 300;
+    justify-content: center;
+    height: 4rem;
+    line-height: 1.25;
+    margin: 0;
+    position: relative;
+    text-decoration: none;
+    transition: all 250ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: baseline;
+    width: 5.5rem;
 }
 
 .menubtn:hover {
-    color: #FFFFFF;
-    background: #666666;
-    padding: 5px 15px;
-    border: 2px solid #222222;
-    border-radius: 6px;
-    transition-duration: 0.2s;
-    cursor: pointer;
-    font-family: NanumSquare;
-    font-size: 32px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+    font-weight: 800;
+    width: 6rem;
 }
 
-.upgrademenubtn {
-    color: #8C0000;
-    background: #FFDBDB;
-    padding: 5px 15px;
-    border: 2px solid #FF7878;
-    border-radius: 6px;
-    transition-duration: 0.2s;
-    cursor: pointer;
-    font-family: NanumSquare;
-    font-size: 32px;
-}
-
-.upgrademenubtn:hover {
-    color: #FFFFFF;
-    background: #FF7878;
-    padding: 5px 15px;
-    border: 2px solid #FF7878;
-    border-radius: 6px;
-    transition-duration: 0.2s;
-    cursor: pointer;
-    font-family: NanumSquare;
-    font-size: 32px;
+.menubtn:active {
+  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
 }
 
 .upgradebtn{
@@ -64,3 +89,4 @@
     font-family: NanumSquare;
     font-size: 32px;
 }
+
