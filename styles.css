@@ -184,6 +184,7 @@ position: relative;
 .progress .progress-bar{
     height: 1.25rem !important;
     border-radius: 50px;
+    --bs-progress-bar-transition: width 0.3s;
 }
 .progress .progress-value{
     position: relative;
@@ -195,10 +196,11 @@ position: relative;
     letter-spacing: 0px;
 }
 .progress-bar.active{
-    animation: reverse progress-bar-stripes 0.40s linear infinite, animate-positive 2s;
+    animation: reverse progress-bar-stripes 0s linear infinite, animate-positive 0s;
 }
 @-webkit-keyframes animate-positive{
     0% { width: 0%; }
+    100% { width: 100%; }
 }
 @keyframes animate-positive {
     0% { width: 0%; }

@@ -1,84 +1,141 @@
-var userdata = {
-    dataversion: "UpSword 0.10",
-    swordLevel: new Decimal(1),
+let userdata = {
+    dataversion: 0,
+    sword: {
+        level: new Decimal(0),
+        exp: new Decimal(0),
+        count: new Decimal(10),
+    },
+
     currency: {
         coin: new Decimal(0),
-        up: new Decimal(0),
-        shard: new Decimal(0),
-        core: new Decimal(0),
-        pticket: new Decimal(0),
-        tp: new Decimal(0),
-        is: new Decimal(0)
     },
+
     upgrade: {
-        coinUpgrade: [0, 0, 0, 0],
-        upUpgrade:[0, 0, 0, 0, 0, 0],
-        dsUpgrade: [0, 0, 0, 0, 0],
-        bcUpgrade: [0, 0, 0, 0, 0],
-        tpUpgrade: [0, 0, 0, 0, 0, 0, 0, 0],
-        tpSeqUpgrade: [0, 0]
+
     },
-    upgradeChange: [new Decimal(5), new Decimal(3), new Decimal(1), new Decimal(2), new Decimal(5), new Decimal(20)],
-    dungeonData: {
-        currentDungeon: "none",
-        leafDungeon : {
-            currentFloor: new Decimal(0),
-            maxFloor: new Decimal(0),
-            checkpoint: new Decimal(0),
-            monsterHP: new Decimal(0),
-        },
-        waterDungeon : {
-            currentFloor: new Decimal(0),
-            maxFloor: new Decimal(0),
-            checkpoint: new Decimal(0),
-            monsterHP: new Decimal(0),
-        },
-        fireDungeon : {
-            currentFloor: new Decimal(0),
-            maxFloor: new Decimal(0),
-            checkpoint: new Decimal(0),
-            monsterHP: new Decimal(0),
-        }
-    },
+
     statistics: {
         currency: { 
             totalCoin: new Decimal(0),
-            totalUP: new Decimal(0),
-            totalDS: new Decimal(0),
-            totalBC: new Decimal(0),
-            totalTP: new Decimal(0),
-            totalIS: new Decimal(0)
-        },
-        dungeon: {
-            /*
-            [0] : totalDamage
-            [1] : totalHit
-            */
-            leafDungeon: [new Decimal(0), new Decimal(0)],
-            waterDungeon: [new Decimal(0), new Decimal(0)],
-            fireDungeon: [new Decimal(0), new Decimal(0)]
         },
         best: {
-            bestLevel: new Decimal(0)
+            level: new Decimal(0)
         },
         total: {
-            totalLevel: new Decimal(0),
-            totalHit: new Decimal(0),
-            totalDamage: new Decimal(0)
+            upgrade: new Decimal(0),
         }
     }
+}
+
+function init() {
+    setInterval(update, 50);
+}
+function update() {
+    document.getElementById("coinAmount").innerText = formatNumber(userdata.currency.coin, "scientific");
+    document.getElementById("swordLevel").innerText = formatNumber(userdata.sword.level, "scientific");;
+    document.getElementById("swordExp").innerText = userdata.sword.exp + " / " + getMaxExpByLevel(userdata.sword.level);
+    document.getElementById("expProgressBar").style.width = userdata.sword.exp.div(getMaxExpByLevel(userdata.sword.level)).mul(100).mag.toFixed(2) + "%"
+    document.getElementById("expProgressValue").innerText = (userdata.sword.exp / getMaxExpByLevel(userdata.sword.level) * 100).toFixed(2) + "%"
 }
 
 function updateCoin() {
 
 }
 
-function formatNumber(value, places) {
+function upgradeButton() {
+    let rand = new Decimal(Math.random());
+    let start = userdata.sword.exp.div(getMaxExpByLevel(userdata.sword.level)).mul(100).mag;
+    let isLevelUp = false;
+    if(rand <= getSuccessChance(userdata.sword.level)) {
+        userdata.sword.exp = userdata.sword.exp.add(getExpIncreaseValue())
+        while(userdata.sword.exp.compare(getMaxExpByLevel(userdata.sword.level)) >= 0) {
+            isLevelUp = true;
+            userdata.sword.exp = userdata.sword.exp.sub(getMaxExpByLevel(userdata.sword.level))
+            userdata.sword.level = userdata.sword.level.add(1)
+            console.log(getMaxExpByLevel(userdata.sword.level))
+        }
+    } else {
+        userdata.sword.exp = userdata.sword.exp.sub(getExpDecreaseValue())
+        if(userdata.sword.exp.compare(0) < 0) {
+            userdata.sword.exp = new Decimal(0) 
+        }
+    }
+
+    let end = userdata.sword.exp.div(getMaxExpByLevel(userdata.sword.level)).mul(100);
+    if(isLevelUp) {
+        end = end.add(100)
+    }
+
+    let currentTime = Date.now();
+
+    //setTimeout(animateProgressBar, 1/144*1000, start, end, currentTime, 600)
+
+
+}
+
+function getMaxExpByLevel(level) {
+    return level.add(1).mul(5);
+}
+
+function getSuccessChance(level) {
+    return new Decimal(100).sub(level).div(100)
+}
+
+function getExpIncreaseValue() {
+    return new Decimal(100);
+}
+
+function getExpDecreaseValue() {
+    return new Decimal(1) ;
+}
+
+function formatNumber(value, format, fix=2) {
+    let power, matissa, formatString;
     if (value instanceof Decimal) {
-        var power = value.e
-        var matissa = value.mantissa
-     } else {
-         var matissa = value / Math.pow(10, Math.floor(Math.log10(value)));
-         var power = Math.floor(Math.log10(value));
+        power = value.e;
+        matissa = value.mantissa;
+    } else {
+         matissa = value / Math.pow(10, Math.floor(Math.log10(value)));
+         power = Math.floor(Math.log10(value));
+    }
+
+    if (format === "scientific") {
+        if(power < 3) {
+            formatString = (matissa * Math.pow(10, power)).toFixed(0)
+        } else {
+            formatString = matissa.toFixed(fix) + "e" + power;
+        }
+    } else if(format == "logarithm") {
+        formatString = "e" + value.log10().toFixed(fix)
+    } else if (format === "alphabet") {
+        formatString = getUnitString(matissa, power, fix, "abcdefghijklmnopqrstuvwxyz")
+    }
+
+    return formatString;
+}
+
+function getUnitString(matissa, power, fix, unitBase){
+    let unitString = ""
+    matissa *= Math.pow(10, power % 3)
+    power = Math.floor(power / 3)
+
+    while (power > 0) {
+        unitString = unitBase[(power - 1) % unitBase.length] + unitString;
+        power = Math.floor((power - 1) / unitBase.length)
+    }
+
+    return matissa.toFixed(fix) + unitString;
+}
+
+function animateProgressBar(start, end, startTime, duration) {
+    let timeDiff = Date.now() - startTime;
+     document.getElementById("expProgressBar").style.width = ((start + (end - start) * ease((timeDiff) / duration)) % 100).toFixed(2) + "%";
+
+     if(timeDiff <= duration) {
+         setTimeout(animateProgressBar, 1/144*1000, start, end, startTime, duration);
      }
+}
+
+function ease(x) {
+  return x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
 }
