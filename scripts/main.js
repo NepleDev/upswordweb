@@ -38,16 +38,37 @@ function init() {
 }
 function update() {
     document.getElementById("coinAmount").innerText = formatNumber(userdata.currency.coin, "scientific");
-    document.getElementById("swordLevel").innerText = formatNumber(userdata.sword.level, "scientific");;
+    document.getElementById("swordLevel").innerText = formatNumber(userdata.sword.level, "scientific");
 
-    document.getElementById("expProgressBar").style.width = userdata.sword.exp.div(getMaxExpByLevel(userdata.sword.level)).mul(100).mag.toFixed(2) + "%"
-    document.getElementById("expProgressValue").innerText = (userdata.sword.exp / getMaxExpByLevel(userdata.sword.level) * 100).toFixed(2) + "%"
+    // upgradeCount
+    document.getElementById("upgradeCount").innerText = formatNumber(userdata.sword.count, "scientific")
+    console.log("rgb(" + 255 - userdata.sword.count.div(getMaxUpgradeCount()).mul(255).mag + "," + userdata.sword.count.div(getMaxUpgradeCount()).mul(255).mag + ", 0)")
+    document.getElementById("upgradeCount").style.color =
+        "rgb(" + new Decimal(255).sub(userdata.sword.count.div(getMaxUpgradeCount()).mul(205)).mag + "," + userdata.sword.count.div(getMaxUpgradeCount()).mul(205).mag + "," + new Decimal(100).sub(userdata.sword.count.div(getMaxUpgradeCount()).mul(100)).mag + ")"
+
+    document.getElementById("expProgressBar").style.width = userdata.sword.exp.div(getMaxExpByLevel(new Decimal(100))).mul(100).mag.toFixed(2) + "%"
+    document.getElementById("expProgressValue").innerText = (userdata.sword.exp.div(getMaxExpByLevel(new Decimal(100))).mul(100)).mag.toFixed(2) + "%"
+
+    document.getElementById("levelExpProgressBar").style.width =
+        userdata.sword.exp
+            .sub(getMaxExpByLevel(userdata.sword.level.sub(1)))
+            .div(getMaxExpByLevel(userdata.sword.level).sub(getMaxExpByLevel(userdata.sword.level.sub(1))))
+            .mul(100)
+            .mag
+            .toFixed(2) + "%"
+
+    document.getElementById("levelExpProgressValue").innerText =
+        userdata.sword.exp
+            .sub(getMaxExpByLevel(userdata.sword.level.sub(1)))
+            .div(getMaxExpByLevel(userdata.sword.level).sub(getMaxExpByLevel(userdata.sword.level.sub(1))))
+            .mul(100)
+            .mag
+            .toFixed(2) + "%"
 }
 
 function updateExp(startExp, endExp, startLevel, endLevel, startTime, duration) {
     let currentExp = lerp(startExp, endExp, (Date.now() - startTime) / duration);
     let currentLevelExp = lerp(getMaxExpByLevel(startLevel), getMaxExpByLevel(endLevel), (Date.now() - startTime) / duration);
-    console.log(startLevel, endLevel, getMaxExpByLevel(startLevel), getMaxExpByLevel(endLevel), currentLevelExp)
     document.getElementById("swordExp").innerText = currentExp.toFixed(0) + " / " + currentLevelExp.toFixed(0);
 
     if(Date.now() - startTime <= duration) {
@@ -62,9 +83,23 @@ function updateCoin() {
 }
 
 function upgradeButton() {
+
+    // 강화 횟수가 남아있는지 체크
+    if(userdata.sword.count <= 0) {
+        return;
+    }
+
+    // 강화 횟수 차감
+    userdata.sword.count = userdata.sword.count.sub(1)
+
+    // random 함수로 성공 / 실패 결정
     let rand = new Decimal(Math.random());
+
+    // smooth change animation을 위한 이전 값 저장
     let prevLevel = userdata.sword.level;
     let prevExp = userdata.sword.exp;
+
+    // 성공 / 실패 시 처리
     if(rand <= getSuccessChance(userdata.sword.level)) {
         userdata.sword.exp = userdata.sword.exp.add(getExpIncreaseValue())
         while(userdata.sword.exp.compare(getMaxExpByLevel(userdata.sword.level)) >= 0) {
@@ -72,21 +107,29 @@ function upgradeButton() {
         }
     } else {
         userdata.sword.exp = userdata.sword.exp.sub(getExpDecreaseValue())
-        if(userdata.sword.exp.compare(0) < 0) {
-            userdata.sword.exp = new Decimal(0) 
+        console.log(userdata.sword.exp.compare(getMaxExpByLevel(userdata.sword.level - 1)))
+        if(userdata.sword.exp.compare(getMaxExpByLevel(userdata.sword.level.sub(1))) < 0) {
+            userdata.sword.exp = getMaxExpByLevel(userdata.sword.level.sub(1))
         }
     }
 
+    // UI Update
     updateExp(prevExp, userdata.sword.exp, prevLevel, userdata.sword.level, Date.now(), 500)
 }
 
 function getMaxExpByLevel(level) {
     if(level instanceof Decimal) {
+        if(level.compare(new Decimal(0)) < 0) {
+            return new Decimal(0)
+        }
         level = level.floor().add(1)
         return level.pow(new Decimal(2.5)).div(new Decimal(level).add(1).log(3)).add(2).floor()
     } else {
+        if(level < 0) {
+            return 0;
+        }
         level = Math.floor(level) + 1
-        return Math.floor(Math.pow(level, 2.5) / Math.logN(level + 1, 3) + 2)
+        return Math.floor(Math.pow(level, 2.5) / logN(level + 1, 3) + 2)
     }
 
 }
@@ -96,11 +139,15 @@ function getSuccessChance(level) {
 }
 
 function getExpIncreaseValue() {
-    return new Decimal(100);
+    return new Decimal(2);
 }
 
 function getExpDecreaseValue() {
     return new Decimal(1) ;
+}
+
+function getMaxUpgradeCount() {
+    return new Decimal(10);
 }
 
 function formatNumber(value, format, fix=2) {
