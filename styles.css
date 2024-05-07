@@ -77,29 +77,26 @@
   box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
 }
 
-.upgradebtn-legacy{
-    color: #8C0000;
-    background: #FFDBDB;
-    width: 200px;
-    height: 100px;
+.color-upgrade {
     border: 2px solid #FF7878;
-    border-radius: 6px;
-    transition-duration: 0.2s;
-    cursor: pointer;
-    font-family: NanumSquare;
-    font-size: 32px;
+    background: #ffffff;
+    color: #ff4f4f;
 }
 
-.upgradebtn {
+.color-upgrade:hover {
+    background: rgb(255, 61, 61);
+    border-color: rgb(255, 61, 61);
+    box-shadow: 0 0 20px 5px rgba(236, 0, 0, 0.4);
+    color: #ffffff;
+}
+
+.main-button-l {
 position: relative;
     padding: 10px 20px;
     border-radius: 7px;
-    border: 2px solid #FF7878;
     font-size: 30px;
     font-weight: 800;
     letter-spacing: 0px;
-    background: #ffffff;
-    color: #ff4f4f;
     overflow: hidden;
     box-shadow: 0 0 0 0 transparent;
     -webkit-transition: all 0.2s ease-in;
@@ -107,24 +104,20 @@ position: relative;
     transition: all 0.2s ease-in;
 }
 
-.upgradebtn:hover {
-    background: rgb(255, 61, 61);
-    border-color: rgb(255, 61, 61);
-    box-shadow: 0 0 20px 5px rgba(236, 0, 0, 0.4);
-    color: #ffffff;
+.main-button-l:hover {
     text-shadow: rgba(255, 255, 255, 0.5) 0 0 8px;
     -webkit-transition: all 0.2s ease-out;
     -moz-transition: all 0.2s ease-out;
     transition: all 0.2s ease-out;
 }
 
-.upgradebtn:hover::before {
+.main-button-l:hover::before {
     -webkit-animation: sh02 0.5s 0s linear;
     -moz-animation: sh02 0.5s 0s linear;
     animation: sh02 0.5s 0s linear;
 }
 
-.upgradebtn::before {
+.main-button-l::before {
     content: '';
     display: block;
     width: 0px;
