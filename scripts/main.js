@@ -15,7 +15,7 @@ let userdata = {
     },
 
     statistics: {
-        currency: { 
+        currency: {
             totalCoin: new Decimal(0),
         },
         best: {
@@ -23,6 +23,12 @@ let userdata = {
         },
         total: {
             upgrade: new Decimal(0),
+        }
+    },
+
+    option: {
+        ui:{
+            updateRate: 60,
         }
     }
 }
@@ -33,9 +39,22 @@ function init() {
 function update() {
     document.getElementById("coinAmount").innerText = formatNumber(userdata.currency.coin, "scientific");
     document.getElementById("swordLevel").innerText = formatNumber(userdata.sword.level, "scientific");;
-    document.getElementById("swordExp").innerText = userdata.sword.exp + " / " + getMaxExpByLevel(userdata.sword.level);
+
     document.getElementById("expProgressBar").style.width = userdata.sword.exp.div(getMaxExpByLevel(userdata.sword.level)).mul(100).mag.toFixed(2) + "%"
     document.getElementById("expProgressValue").innerText = (userdata.sword.exp / getMaxExpByLevel(userdata.sword.level) * 100).toFixed(2) + "%"
+}
+
+function updateExp(startExp, endExp, startLevel, endLevel, startTime, duration) {
+    let currentExp = lerp(startExp, endExp, (Date.now() - startTime) / duration);
+    let currentLevelExp = lerp(getMaxExpByLevel(startLevel), getMaxExpByLevel(endLevel), (Date.now() - startTime) / duration);
+    console.log(startLevel, endLevel, getMaxExpByLevel(startLevel), getMaxExpByLevel(endLevel), currentLevelExp)
+    document.getElementById("swordExp").innerText = currentExp.toFixed(0) + " / " + currentLevelExp.toFixed(0);
+
+    if(Date.now() - startTime <= duration) {
+        setTimeout(updateExp, 1 / userdata.option.ui.updateRate * 1000, startExp, endExp, startLevel, endLevel, startTime, duration)
+    } else {
+        document.getElementById("swordExp").innerText = endExp.toFixed(0) + " / " + getMaxExpByLevel(endLevel);
+    }
 }
 
 function updateCoin() {
@@ -44,15 +63,12 @@ function updateCoin() {
 
 function upgradeButton() {
     let rand = new Decimal(Math.random());
-    let start = userdata.sword.exp.div(getMaxExpByLevel(userdata.sword.level)).mul(100).mag;
-    let isLevelUp = false;
+    let prevLevel = userdata.sword.level;
+    let prevExp = userdata.sword.exp;
     if(rand <= getSuccessChance(userdata.sword.level)) {
         userdata.sword.exp = userdata.sword.exp.add(getExpIncreaseValue())
         while(userdata.sword.exp.compare(getMaxExpByLevel(userdata.sword.level)) >= 0) {
-            isLevelUp = true;
-            userdata.sword.exp = userdata.sword.exp.sub(getMaxExpByLevel(userdata.sword.level))
             userdata.sword.level = userdata.sword.level.add(1)
-            console.log(getMaxExpByLevel(userdata.sword.level))
         }
     } else {
         userdata.sword.exp = userdata.sword.exp.sub(getExpDecreaseValue())
@@ -61,20 +77,18 @@ function upgradeButton() {
         }
     }
 
-    let end = userdata.sword.exp.div(getMaxExpByLevel(userdata.sword.level)).mul(100);
-    if(isLevelUp) {
-        end = end.add(100)
-    }
-
-    let currentTime = Date.now();
-
-    //setTimeout(animateProgressBar, 1/144*1000, start, end, currentTime, 600)
-
-
+    updateExp(prevExp, userdata.sword.exp, prevLevel, userdata.sword.level, Date.now(), 500)
 }
 
 function getMaxExpByLevel(level) {
-    return level.add(1).mul(5);
+    if(level instanceof Decimal) {
+        level = level.floor().add(1)
+        return level.pow(new Decimal(2.5)).div(new Decimal(level).add(1).log(3)).add(2).floor()
+    } else {
+        level = Math.floor(level) + 1
+        return Math.floor(Math.pow(level, 2.5) / Math.logN(level + 1, 3) + 2)
+    }
+
 }
 
 function getSuccessChance(level) {
@@ -136,6 +150,14 @@ function animateProgressBar(start, end, startTime, duration) {
      }
 }
 
+function lerp(a, b, t) {
+    return a * (1 - ease(t)) + b * ease(t);
+}
+
 function ease(x) {
   return x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
+}
+
+function logN(x, n) {
+    return Math.log(x) / Math.log(n);
 }
